@@ -1,29 +1,29 @@
 pipeline {
     agent any
-    parameters {
-        booleanParam(defaultValue: false, description: "This is bla bla", name: "testBool")
+    environment {
+        AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
+        JFROG_KEY=credentials('jfrog')
     }
     stages {
-        stage("Stage-1") {
+        stage('git checkout') {
             steps {
-                sh '''
-                chmod 755 ./jenkins/scripts/script1.sh
-                sh './jenkins/scripts/script1.sh'
-                echo "${BUILD_NUMBER}"
-                echo "The Boolean is: ${params.testBool}"
-                '''
+                git branch: 'main', credentialsId: 'git-rnaik', url: 'https://github.com/rknaik76/demojenkins.git'
             }
-            // steps {
-            //     echo "The Boolean is: ${params.testBool}"
-            // }
         }
-        stage("Stage-2") {
+        stage('docker login') {
             steps {
-                sh '''
-                chmod 755 ./jenkins/scripts/script2.sh
-                sh './jenkins/scripts/script2.sh'
-                echo $BUILD_NUMBER
-                '''
+                sh label: 'Docker login', script: "docker login --username rknaik76@gmail.com --password ${JFROG_KEY} rknaik76.jfrog.io"
+            }
+        }
+        stage('docker build') {
+            steps {
+                sh label: 'Docker build', script: "docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} ."
+            }
+        }
+        stage('docker push') {
+            steps {
+                sh label: 'Docker push', script: "docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}"
             }
         }
     }

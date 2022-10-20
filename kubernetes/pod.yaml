@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drinks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drinks
+  template:
+    metadata:
+      labels:
+        app: drinks
+    spec:
+      containers:
+        - name: drinks
+          image: rknaik76.jfrog.io/drinks-docker/hellonode:latest
+          ports:
+          - containerPort: 8081
+      imagePullSecrets:
+        - name: regcred
