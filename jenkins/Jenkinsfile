@@ -5,16 +5,17 @@ pipeline {
     }
     stages {
         stage("Stage-1") {
-            // steps {
-            //     sh '''
-            //     chmod 755 ./jenkins/scripts/s cript1.sh
-            //     sh './jenkins/scripts/script1.sh'
-            //     echo "${BUILD_NUMBER}"
-            //     '''
-            // }
             steps {
+                sh '''
+                chmod 755 ./jenkins/scripts/s cript1.sh
+                sh './jenkins/scripts/script1.sh'
+                echo "${BUILD_NUMBER}"
                 echo "The Boolean is: ${params.testBool}"
+                '''
             }
+            // steps {
+            //     echo "The Boolean is: ${params.testBool}"
+            // }
         }
         stage("Stage-2") {
             steps {
