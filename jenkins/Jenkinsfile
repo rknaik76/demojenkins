@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages {
+        stage("Stage-1") {
+            steps {
+                sh './jenkins/scripts/script1.sh'
+            }
+        }
+        stage("Stage-2") {
+            steps {
+                sh './jenkins/scripts/script2.sh'
+            }
+        }
+    }
+}
