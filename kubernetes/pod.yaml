@@ -12,10 +12,12 @@ spec:
       labels:
         app: drinks
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: drinks
           image: rknaik76.jfrog.io/drinks-docker/hellonode:latest
+          imagePullPolicy: "Always"
           ports:
-          - containerPort: 8081
+          - containerPort: 8080
       imagePullSecrets:
         - name: regcred
