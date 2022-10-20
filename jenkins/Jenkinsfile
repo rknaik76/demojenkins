@@ -35,5 +35,15 @@ pipeline {
                 sh label: 'AWS TEST', script: "aws s3 ls --profile eksconnect"
             }
         }
+        stage('ADD EKS') {
+            steps {
+                sh label: 'AWS DEL', script: "aws eks update-kubeconfig --region us-east-1 --name terraformEKScluster"
+            }
+        }
+        stage('EKS TEST') {
+            steps {
+                sh label: 'EKS TEST', script: "kubectl get svc"
+            }
+        }
     }
 }
