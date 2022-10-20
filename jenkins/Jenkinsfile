@@ -6,33 +6,33 @@ pipeline {
         JFROG_KEY=credentials('jfrog')
     }
     stages {
-        // stage('git checkout') {
-        //     steps {
-        //         git branch: 'main', credentialsId: 'git-rnaik', url: 'https://github.com/rknaik76/demojenkins.git'
-        //     }
-        // }
-        // stage('docker login') {
-        //     steps {
-        //         sh label: 'Docker login', script: "docker login --username rknaik76@gmail.com --password cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF rknaik76.jfrog.io"
-        //     }
-        // }
-        // stage('docker build') {
-        //     steps {
-        //         sh label: 'Docker build', script: "docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} ."
-        //     }
-        // }
-        // stage('docker push') {
-        //     steps {
-        //         sh label: 'Docker push', script: "docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}"
-        //     }
-        stage('EKS Configure cred') {
+        stage('git checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git-rnaik', url: 'https://github.com/rknaik76/demojenkins.git'
+            }
+        }
+        stage('docker login') {
+            steps {
+                sh label: 'Docker login', script: "docker login --username rknaik76@gmail.com --password cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF rknaik76.jfrog.io"
+            }
+        }
+        stage('docker build') {
+            steps {
+                sh label: 'Docker build', script: "docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} ."
+            }
+        }
+        stage('docker push') {
+            steps {
+                sh label: 'Docker push', script: "docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}"
+            }
+        stage('AWS Configure cred') {
             steps {
                 sh label: 'EKS Configure cred', script: "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID} --profile eksconnect && aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} --profile eksconnect && aws configure set region us-east-1 --profile eksconnect"
             }
         }
-        stage('TEST AWS') {
+        stage('EKS Configure') {
             steps {
-                sh label: 'AWS TEST', script: "aws s3 ls --profile eksconnect"
+                sh label: 'AWS TEST', script: "pwd"
             }
         }
     }
