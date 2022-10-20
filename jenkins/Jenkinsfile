@@ -27,7 +27,7 @@ pipeline {
         //     }
         stage('EKS Configure cred') {
             steps {
-                sh label: 'EKS Configure cred', script: "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID} --profile eksconnect && aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} --profile eksconnect && aws configure set region "us-east-1" --profile eksconnect"
+                sh label: 'EKS Configure cred', script: "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID} --profile eksconnect && aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} --profile eksconnect && aws configure set region us-east-1 --profile eksconnect"
             }
         }
         stage('TEST AWS') {
