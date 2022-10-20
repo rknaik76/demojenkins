@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    paramaters {
+        booleanParam(defaultValue: false, description: "This is bla bla", name: "testBool")
+    }
     stages {
         stage("Stage-1") {
             steps {
