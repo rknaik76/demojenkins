@@ -47,7 +47,7 @@ pipeline {
         // }
         stage('EKS POD DEPLOY') {
             steps {
-                sh label: 'EKS TEST', script: "ls ./kubernetes/pod.yaml"
+                sh label: 'EKS TEST', script: "sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ./kubernetes/pod.yaml"
             }
         }
     }
