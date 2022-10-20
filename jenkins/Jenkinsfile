@@ -3,11 +3,13 @@ pipeline {
     stages {
         stage("Stage-1") {
             steps {
+                chmod 755 ./jenkins/scripts/script1.sh
                 sh './jenkins/scripts/script1.sh'
             }
         }
         stage("Stage-2") {
             steps {
+                chmod 755 ./jenkins/scripts/script2.sh
                 sh './jenkins/scripts/script2.sh'
             }
         }
