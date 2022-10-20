@@ -49,6 +49,9 @@ pipeline {
             steps {
                 sh label: 'EKS TEST', script: "sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ./kubernetes/pod.yaml"
             }
+            steps {
+                sh label: 'file show', script: "cat ./kubernetes/pod.yaml"
+            }
         }
     }
 }
