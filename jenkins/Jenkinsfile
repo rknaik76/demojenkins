@@ -10,6 +10,7 @@ pipeline {
                 chmod 755 ./jenkins/scripts/script1.sh
                 sh './jenkins/scripts/script1.sh'
                 echo "${BUILD_NUMBER}"
+                echo "${params.testBool}"
                 '''
             }
         }
