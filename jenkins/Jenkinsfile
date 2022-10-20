@@ -13,7 +13,7 @@ pipeline {
                 '''
             }
             steps {
-                echo "The Boolean is: ${params.testBool}""
+                echo "The Boolean is: ${params.testBool}"
             }
         }
         stage("Stage-2") {
