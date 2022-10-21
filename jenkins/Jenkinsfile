@@ -68,7 +68,7 @@ pipeline {
         // }
         stage('EKS POD CREATE/UPDATE') {
             steps {
-                sh label: 'EKS POD CREATE/UPDATE', script: "./jenkins/scripts/update_deployment.bash"
+                sh label: 'EKS POD CREATE/UPDATE', script: "./jenkins/scripts/update_deployment.bash drinks ./pod.yaml drinks rknaik76.jfrog.io/drinks-docker/hellonode 17"
             }
         }
         // stage('EKS SVC CREATE') {
