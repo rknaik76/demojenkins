@@ -61,11 +61,6 @@ pipeline {
                 sh label: 'ADD CRED', script: "kubectl create secret docker-registry regcred --docker-server=rknaik76.jfrog.io --docker-username=rknaik76@gmail.com --docker-password=cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF --docker-email=rknaik76@gmail.com"
             }
         }
-        stage('EKS POD CREATE/UPDATE') {
-            steps {
-                sh label: 'EKS POD CREATE', script: "kubectl create -f ./kubernetes/pod.yaml && sleep 30"
-            }
-        }
         stage('SET PERMISSIONS') {
             steps {
                 sh label: 'SET PERMISSIONS', script: "chmod -R 755 ./jenkins/scripts/*"
