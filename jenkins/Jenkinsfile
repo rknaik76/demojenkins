@@ -66,6 +66,11 @@ pipeline {
         //         sh label: 'EKS POD CREATE', script: "kubectl create -f ./kubernetes/pod.yaml && sleep 30"
         //     }
         // }
+        stage('SET PERMISSIONS') {
+            steps {
+                sh label: 'SET PERMISSIONS', script: "chmod -R 755 ./jenkins/scripts/*"
+            }
+        }
         stage('EKS POD CREATE/UPDATE') {
             steps {
                 sh label: 'EKS POD CREATE/UPDATE', script: "./jenkins/scripts/update_deployment.bash drinks ./pod.yaml drinks rknaik76.jfrog.io/drinks-docker/hellonode 17"
