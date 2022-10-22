@@ -10,5 +10,5 @@ if [ $RESULT -eq 0 ]; then
     echo "Kubernetes service is already present. No action needed."
 else
     echo "Kubernetes service does not exist. Creating new secret"
-    kubectl create service -f ${SERVICE_YAML}
+    kubectl create -f ${SERVICE_YAML}
 fi
