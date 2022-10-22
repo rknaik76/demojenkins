@@ -20,7 +20,7 @@ pipeline {
         stage('IMAGE BUILD') {
             steps {
                 sh """
-                docker login --username ${$JFROG_USR} --password ${JFROG_PSW} ${JFROG_REPO}
+                docker login --username ${JFROG_USR} --password ${JFROG_PSW} ${JFROG_REPO}
                 docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} .
                 docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}
                 sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ${KUBE_DEPLOYMENT_YAML}
