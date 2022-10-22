@@ -13,12 +13,12 @@ pipeline {
         }
         stage('IMAGE BUILD') {
             steps {
-                sh '''
-                echo "${JFROG_KEY}
+                sh """
+                echo $JFROG_KEY
                 docker login --username rknaik76@gmail.com --password cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF rknaik76.jfrog.io
                 docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} .
                 docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}
-                '''
+                """
             }
         }
         stage('EKS DEPLPY') {
