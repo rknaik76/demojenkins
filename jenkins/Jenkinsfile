@@ -3,7 +3,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
-        JFROG_KEY=credentials('jfrog')
+        JFROG_PAAS=credentials('jfrog')
     }
     stages {
         stage('git checkout') {
@@ -14,7 +14,7 @@ pipeline {
         stage('IMAGE BUILD') {
             steps {
                 sh """
-                echo $JFROG_KEY
+                echo $JFROG_PAAS
                 docker login --username rknaik76@gmail.com --password cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF rknaik76.jfrog.io
                 docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} .
                 docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}
