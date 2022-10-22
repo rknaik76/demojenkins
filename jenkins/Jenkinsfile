@@ -4,6 +4,7 @@ pipeline {
         AWS_ACCESS_KEY_ID=credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
         JFROG_PAAS=credentials('jfrog')
+        EKS_CLUSTER_NAME="terraformEKScluster"
     }
     stages {
         stage('git checkout') {
@@ -27,7 +28,7 @@ pipeline {
             steps {
                 sh '''
                 chmod -R 755 ./jenkins/scripts
-                ./jenkins/scripts/prepare_deployment.bash ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} terraformEKScluster ${BUILD_NUMBER}
+                ./jenkins/scripts/prepare_deployment.bash ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} ${EKS_CLUSTER_NAME} ${BUILD_NUMBER}
                 ./jenkins/scripts/update_deployment.bash drinks ./kubernetes/pod.yaml drinks rknaik76.jfrog.io/drinks-docker/hellonode ${BUILD_NUMBER}
                 '''
             }
