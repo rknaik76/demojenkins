@@ -12,4 +12,3 @@ aws configure set region us-east-1 --profile eksconnect
 aws eks update-kubeconfig --region us-east-1 --name ${KUBE_CLUSTER_NAME}
 sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ./kubernetes/pod.yaml
 kubectl create secret docker-registry regcred --docker-server=rknaik76.jfrog.io --docker-username=rknaik76@gmail.com --docker-password=cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF --docker-email=rknaik76@gmail.com
-chmod -R 755 ./jenkins/scripts/

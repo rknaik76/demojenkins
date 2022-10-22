@@ -26,6 +26,7 @@ pipeline {
             }
             steps {
                 sh '''
+                chmod -R 755 ./jenkins/scripts
                 ./jenkins/scripts/prepare_deployment.bash ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} terraformEKScluster ${BUILD_NUMBER}
                 ./jenkins/scripts/update_deployment.bash drinks ./kubernetes/pod.yaml drinks rknaik76.jfrog.io/drinks-docker/hellonode ${BUILD_NUMBER}
                 '''
