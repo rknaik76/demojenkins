@@ -44,15 +44,14 @@ pipeline {
             steps {
                 sh '''
                 chmod -R 755 ./jenkins/scripts
-                # ./jenkins/scripts/prepare_deployment.bash ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} ${EKS_CLUSTER_NAME} ${BUILD_NUMBER}
                 ./jenkins/scripts/update_deployment.bash drinks ${KUBE_DEPLOYMENT_YAML} ${CONTAINER_NAME} ${JFROG_REPO_URL} ${BUILD_NUMBER} ${SECRET_NAME} ${JFROG_REPO} ${JFROG_USR} ${JFROG_PSW}
                 '''
             }
         }
-        // stage('EKS SVC CREATE') {
-        //     steps {
-        //         sh label: 'EKS SVC CREATE', script: "kubectl create -f ./kubernetes/service.yaml"
-        //     }
-        // }
+        stage('EKS SVC CREATE') {
+            steps {
+                sh label: 'EKS SVC CREATE', script: "./jenkins/scripts/create_service.bash ./kubernetes/service.yaml"
+            }
+        }
     }
 }
