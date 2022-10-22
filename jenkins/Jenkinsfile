@@ -11,14 +11,10 @@ pipeline {
                 git branch: 'main', credentialsId: 'git-rnaik', url: 'https://github.com/rknaik76/demojenkins.git'
             }
         }
-        stage('Configure creds'){
-            steps {
-                sh('docker login --username rknaik76@gmail.com --password $JFROG_PAAS_PSW rknaik76.jfrog.io')
-            }
-        }
         stage('IMAGE BUILD') {
             steps {
                 sh """
+                docker login --username rknaik76@gmail.com --password $JFROG_PAAS_PSW rknaik76.jfrog.io
                 docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} .
                 docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}
                 """
