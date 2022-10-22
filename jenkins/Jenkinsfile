@@ -11,64 +11,29 @@ pipeline {
                 git branch: 'main', credentialsId: 'git-rnaik', url: 'https://github.com/rknaik76/demojenkins.git'
             }
         }
-        stage('docker login') {
+        stage('IMAGE BUILD') {
             steps {
-                sh label: 'Docker login', script: "docker login --username rknaik76@gmail.com --password cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF rknaik76.jfrog.io"
+                sh '''
+                docker login --username rknaik76@gmail.com --password cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF rknaik76.jfrog.io
+                docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} .
+                docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}
+                '''
             }
         }
-        stage('docker build') {
-            steps {
-                sh label: 'Docker build', script: "docker build -t rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER} ."
+        stage('EKS DEPLPY') {
+            input {
+                message "Please Approve for Deployment"
             }
-        }
-        stage('docker push') {
             steps {
-                sh label: 'Docker push', script: "docker push rknaik76.jfrog.io/drinks-docker/hellonode:${BUILD_NUMBER}"
-            }
-        }
-        stage('EKS Configure cred') {
-            steps {
-                sh label: 'EKS Configure cred', script: "aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID} --profile eksconnect && aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} --profile eksconnect && aws configure set region us-east-1 --profile eksconnect && pwd"
-            }
-        }
-        stage('TEST AWS') {
-            steps {
-                sh label: 'AWS TEST', script: "aws s3 ls --profile eksconnect"
-            }
-        }
-        stage('ADD EKS') {
-            steps {
-                sh label: 'EKS CONNECT', script: "aws eks update-kubeconfig --region us-east-1 --name terraformEKScluster"
-            }
-        }
-        stage('EKS TEST') {
-            steps {
-                sh label: 'EKS TEST', script: "kubectl get svc"
-            }
-        }
-        stage('UPD POD TAG') {
-            steps {
-                sh label: 'UPD POD TAG', script: "sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ./kubernetes/pod.yaml"
-            }
-        }
-        stage('POD YAML SHOW') {
-            steps {
-                sh label: 'POD YAML SHOW', script: "cat ./kubernetes/pod.yaml"
-            }
-        }
-        stage('ADD CRED') {
-            steps {
-                sh label: 'ADD CRED', script: "kubectl create secret docker-registry regcred --docker-server=rknaik76.jfrog.io --docker-username=rknaik76@gmail.com --docker-password=cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF --docker-email=rknaik76@gmail.com"
-            }
-        }
-        stage('SET PERMISSIONS') {
-            steps {
-                sh label: 'SET PERMISSIONS', script: "chmod -R 755 ./jenkins/scripts/*"
-            }
-        }
-        stage('EKS POD CREATE/UPDATE') {
-            steps {
-                sh label: 'EKS POD CREATE/UPDATE', script: "./jenkins/scripts/update_deployment.bash drinks ./kubernetes/pod.yaml drinks rknaik76.jfrog.io/drinks-docker/hellonode ${BUILD_NUMBER}"
+                sh '''
+                aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID} --profile eksconnect
+                aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY} --profile eksconnect aws configure set region us-east-1 --profile eksconnect
+                aws eks update-kubeconfig --region us-east-1 --name terraformEKScluster
+                sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ./kubernetes/pod.yaml
+                kubectl create secret docker-registry regcred --docker-server=rknaik76.jfrog.io --docker-username=rknaik76@gmail.com --docker-password=cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF --docker-email=rknaik76@gmail.com
+                chmod -R 755 ./jenkins/scripts/*
+                ./jenkins/scripts/update_deployment.bash drinks ./kubernetes/pod.yaml drinks rknaik76.jfrog.io/drinks-docker/hellonode ${BUILD_NUMBER}
+                '''
             }
         }
         // stage('EKS SVC CREATE') {
