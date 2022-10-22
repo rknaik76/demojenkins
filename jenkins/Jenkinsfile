@@ -10,6 +10,8 @@ pipeline {
         CONTAINER_NAME="drinks"
         KUBE_DEPLOYMENT_YAML="./kubernetes/pod.yaml"
         SECRET_NAME="regcred"
+        SERVICE_NAME="drinks"
+        SERVICE_YAML="./kubernetes/service.yaml"
     }
     stages {
         stage('git checkout') {
@@ -50,7 +52,7 @@ pipeline {
         }
         stage('EKS SVC CREATE') {
             steps {
-                sh label: 'EKS SVC CREATE', script: "./jenkins/scripts/create_service.bash ./kubernetes/service.yaml"
+                sh label: 'EKS SVC CREATE', script: "./jenkins/scripts/create_service.bash ${SERVICE_NAME} ${SERVICE_YAML}"
             }
         }
     }
