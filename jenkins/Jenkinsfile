@@ -33,6 +33,7 @@ pipeline {
                 sed -i \"s/hellonode:latest/hellonode:${BUILD_NUMBER}/g\" ./kubernetes/pod.yaml
                 kubectl create secret docker-registry regcred --docker-server=rknaik76.jfrog.io --docker-username=rknaik76@gmail.com --docker-password=cmVmdGtuOjAxOjAwMDAwMDAwMDA6QVl5T3lReWVOalkxTW54MENweHRFY3VTVmdF --docker-email=rknaik76@gmail.com
                 pwd
+                ls -lRt
                 '''
             }
         }
