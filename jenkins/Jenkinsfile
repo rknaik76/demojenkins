@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Configure creds'){
             steps {
-                sh('docker login --username rknaik76@gmail.com --password $JFROG_PAAS rknaik76.jfrog.io')
+                sh('docker login --username rknaik76@gmail.com --password $JFROG_PAAS_PSW rknaik76.jfrog.io')
             }
         }
         stage('IMAGE BUILD') {
