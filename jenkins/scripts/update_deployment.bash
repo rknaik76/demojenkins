@@ -17,7 +17,7 @@ if [ $RESULT -eq 0 ]; then
     echo "Kubernetes docker secret is already present. No action needed."
 else
     echo "Kubernetes docker secret does not exist. Creating new secret"
-    kubectl create secret docker-registry regcred --docker-server=${JFROG_REPO} --docker-username=${$JFROG_USR} --docker-password=${JFROG_PSW} --docker-email=${$JFROG_USR}
+    kubectl create secret docker-registry regcred --docker-server=${JFROG_REPO} --docker-username=${$JFROG_USR} --docker-password=${JFROG_PSW} --docker-email=${JFROG_USR}
 fi
 
 OUTPUT=`kubectl get deployments 2>/dev/null | grep $DEPLOYMENT`
